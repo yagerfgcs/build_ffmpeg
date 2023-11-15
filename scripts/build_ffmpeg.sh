@@ -153,20 +153,50 @@ build_ffmpeg()
         pushd FFmpeg
         # configure
         export PKG_CONFIG_PATH=${PKG_CONFIG_PATH}:$INSTALL_DIR/lib/pkgconfig
+
+        # for v4.4
         ./configure --pkg-config=$(which pkg-config) \
-                --pkg-config-flags="--static" \
-                --enable-static --enable-pic \
-                --prefix=${INSTALL_DIR} \
-                --enable-openssl --enable-nonfree \
-                --enable-libmp3lame \
-                --disable-encoders --enable-encoder=aac --enable-encoder=libx264 --enable-gpl --enable-libx264 --enable-encoder=libx265  --enable-libx265 \
-                --disable-decoders --enable-decoder=aac --enable-decoder=h264 --enable-decoder=hevc  \
-                --disable-demuxers --enable-demuxer=aac --enable-demuxer=mov --enable-demuxer=mpegts --enable-demuxer=flv --enable-demuxer=h264 --enable-demuxer=hevc --enable-demuxer=hls  \
-                --disable-muxers --enable-muxer=h264  --enable-muxer=flv --enable-muxer=f4v  --enable-muxer=mp4 \
-                --disable-doc --extra-cflags="-I${INSTALL_DIR}/include -fno-stack-check"\
-                --extra-ldflags="-L${INSTALL_DIR}/lib -ldl -lpthread"
-        # make
+                  --pkg-config-flags="--static" \
+                  --enable-debug --disable-stripping \
+                  --enable-pic \
+                  --enable-static \
+                  --prefix=${INSTALL_DIR} \
+                  --enable-libx264 --enable-libx265 \
+                  --enable-encoder=libx264 --enable-encoder=libx265 \
+                  --enable-decoder=h264 --enable-decoder=hevc \
+                  --enable-demuxer=h264 --enable-demuxer=hevc --enable-demuxer=hls \
+                  --enable-muxer=h264 --enable-muxer=hevc \
+                  --enable-openssl \
+                  --enable-libmp3lame \
+                  --enable-gpl \
+                  --enable-avresample \
+                  --enable-nonfree \
+                  --disable-doc \
+                  --extra-cflags="-I${INSTALL_DIR}/include "\
+                  --extra-ldflags="-L${INSTALL_DIR}/lib -ldl -lpthread"
+
+        # for v6.1
+        # ./configure --pkg-config=$(which pkg-config) \
+        #           --pkg-config-flags="--static" \
+        #           --enable-debug --disable-stripping \
+        #           --enable-pic \
+        #           --enable-static \
+        #           --prefix=${INSTALL_DIR} \
+        #           --enable-libx264 --enable-libx265 \
+        #           --enable-encoder=libx264 --enable-encoder=libx265 \
+        #           --enable-decoder=h264 --enable-decoder=hevc \
+        #           --enable-demuxer=h264 --enable-demuxer=hevc --enable-demuxer=hls \
+        #           --enable-muxer=h264 --enable-muxer=hevc \
+        #           --enable-openssl \
+        #           --enable-libmp3lame \
+        #           --enable-gpl \
+        #           --enable-nonfree \
+        #           --disable-doc \
+        #           --extra-cflags="-I${INSTALL_DIR}/include "\
+        #           --extra-ldflags="-L${INSTALL_DIR}/lib -ldl -lpthread"
+
         make -j16
+        make examples
         make install
         popd
         popd
@@ -191,6 +221,6 @@ build_lame
 build_x264
 build_x265
 build_ffmpeg
-# package_ffmpeg
+package_ffmpeg
 
 
