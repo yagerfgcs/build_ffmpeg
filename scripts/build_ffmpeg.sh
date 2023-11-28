@@ -58,7 +58,7 @@ build_lame()
             CC=$CC ./configure --disable-shared --disable-frontend --host=x86_64-apple-darwin \
                                --prefix=$INSTALL_DIR CC="$CC" CFLAGS="$CFLAGS" LDFLAGS="$LDFLAGS"
         elif [[ "$os_type" == "Linux" ]]; then
-            LDFLAGS="-fPIC" ./configure --prefix=$INSTALL_DIR --build=BUILD --enable-static --enable-nasm --with-pic
+            LDFLAGS="-fPIC" ./configure --prefix=$INSTALL_DIR --disable-shared --enable-static --enable-nasm --with-pic
         else
             echo "Unknown operating system"
         fi
@@ -159,7 +159,7 @@ build_ffmpeg()
                   --pkg-config-flags="--static" \
                   --enable-debug --disable-stripping \
                   --enable-pic \
-                  --enable-static \
+                  --disable-shared --enable-static \
                   --prefix=${INSTALL_DIR} \
                   --enable-libx264 --enable-libx265 \
                   --enable-encoder=libx264 --enable-encoder=libx265 \
@@ -180,7 +180,7 @@ build_ffmpeg()
         #           --pkg-config-flags="--static" \
         #           --enable-debug --disable-stripping \
         #           --enable-pic \
-        #           --enable-static \
+        #           --disable-shared --enable-static \
         #           --prefix=${INSTALL_DIR} \
         #           --enable-libx264 --enable-libx265 \
         #           --enable-encoder=libx264 --enable-encoder=libx265 \
